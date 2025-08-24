@@ -1,67 +1,92 @@
 import 'package:flutter/material.dart';
 import 'color_palette.dart';
-import 'text_styles.dart'; // Para los estilos de texto de hint/label
+// No necesitas text_styles.dart si el TextTheme se aplica globalmente
 
-// --- Tema Oscuro: InputDecorationTheme ---
-final InputDecorationTheme darkInputDecorationTheme = InputDecorationTheme(
-  filled: true,
-  fillColor: darkSurfaceColor.withOpacity(0.7), // Un poco de transparencia o un color ligeramente diferente
-  hintStyle: darkTextTheme.bodyMedium?.copyWith(color: darkHintTextColor),
-  labelStyle: darkTextTheme.bodyMedium?.copyWith(color: darkSecondaryTextColor), // Estilo para el label cuando está arriba
-  errorStyle: darkTextTheme.bodySmall?.copyWith(color: Colors.redAccent[100]), // Color de error
-  
-  contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0), // Padding interno
+// --- Tema Oscuro: InputDecorationTheme (Moderno) ---
+InputDecorationTheme modernDarkInputDecorationTheme(TextTheme textTheme) {
+  return InputDecorationTheme(
+    filled: true,
+    fillColor: modernDarkSurface.withOpacity(0.7),
+    hintStyle: textTheme.bodyMedium?.copyWith(
+      color: modernDarkSecondaryText.withOpacity(0.7),
+    ),
+    labelStyle: textTheme.bodyMedium?.copyWith(color: modernDarkSecondaryText),
+    errorStyle: textTheme.bodySmall?.copyWith(color: modernDarkError),
 
-  border: OutlineInputBorder( // Borde por defecto
-    borderRadius: BorderRadius.circular(8.0),
-    borderSide: BorderSide(color: darkBorderColor.withOpacity(0.7)),
-  ),
-  enabledBorder: OutlineInputBorder( // Borde cuando el campo está habilitado pero no enfocado
-    borderRadius: BorderRadius.circular(8.0),
-    borderSide: BorderSide(color: darkBorderColor.withOpacity(0.7)),
-  ),
-  focusedBorder: OutlineInputBorder( // Borde cuando el campo está enfocado
-    borderRadius: BorderRadius.circular(8.0),
-    borderSide: const BorderSide(color: darkPrimaryColor, width: 1.5),
-  ),
-  errorBorder: OutlineInputBorder( // Borde cuando hay un error
-    borderRadius: BorderRadius.circular(8.0),
-    borderSide: BorderSide(color: Colors.redAccent[100]!, width: 1.5),
-  ),
-  focusedErrorBorder: OutlineInputBorder( // Borde cuando hay un error y está enfocado
-    borderRadius: BorderRadius.circular(8.0),
-    borderSide: BorderSide(color: Colors.redAccent[100]!, width: 1.5),
-  ),
-);
+    contentPadding: const EdgeInsets.symmetric(
+      horizontal: 20.0,
+      vertical: 18.0,
+    ),
 
-// --- Tema Claro: InputDecorationTheme ---
-final InputDecorationTheme lightInputDecorationTheme = InputDecorationTheme(
-  filled: true,
-  fillColor: lightSurfaceColor, // Podría ser lightBackgroundColor o un gris muy sutil
-  hintStyle: lightTextTheme.bodyMedium?.copyWith(color: lightHintTextColor),
-  labelStyle: lightTextTheme.bodyMedium?.copyWith(color: lightSecondaryTextColor),
-  errorStyle: lightTextTheme.bodySmall?.copyWith(color: Colors.red.shade700),
-  
-  contentPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 14.0),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12.0),
+      borderSide:
+          BorderSide
+              .none, // Sin borde visible por defecto, el fill color lo define
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12.0),
+      borderSide: BorderSide(
+        color: modernDarkSurface.withOpacity(0.5),
+        width: 1,
+      ),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12.0),
+      borderSide: BorderSide(color: modernDarkPrimary, width: 2),
+    ),
+    errorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12.0),
+      borderSide: BorderSide(color: modernDarkError, width: 1.5),
+    ),
+    focusedErrorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12.0),
+      borderSide: BorderSide(color: modernDarkError, width: 2),
+    ),
+    prefixIconColor: modernDarkSecondaryText,
+    suffixIconColor: modernDarkSecondaryText,
+  );
+}
 
-  border: OutlineInputBorder(
-    borderRadius: BorderRadius.circular(8.0),
-    borderSide: BorderSide(color: lightBorderColor),
-  ),
-  enabledBorder: OutlineInputBorder(
-    borderRadius: BorderRadius.circular(8.0),
-    borderSide: BorderSide(color: lightBorderColor),
-  ),
-  focusedBorder: OutlineInputBorder(
-    borderRadius: BorderRadius.circular(8.0),
-    borderSide: const BorderSide(color: lightPrimaryColor, width: 1.5),
-  ),
-  errorBorder: OutlineInputBorder(
-    borderRadius: BorderRadius.circular(8.0),
-    borderSide: BorderSide(color: Colors.red.shade700, width: 1.5),
-  ),
-  focusedErrorBorder: OutlineInputBorder(
-    borderRadius: BorderRadius.circular(8.0),
-    borderSide: BorderSide(color: Colors.red.shade700, width: 1.5),
-  ),
-);
+// --- Tema Claro: InputDecorationTheme (Moderno) ---
+InputDecorationTheme modernLightInputDecorationTheme(TextTheme textTheme) {
+  return InputDecorationTheme(
+    filled: true,
+    fillColor: modernLightSurface.withOpacity(
+      0.8,
+    ), // Un poco de transparencia para ver el fondo degradado
+    hintStyle: textTheme.bodyMedium?.copyWith(
+      color: modernLightSecondaryText.withOpacity(0.7),
+    ),
+    labelStyle: textTheme.bodyMedium?.copyWith(color: modernLightSecondaryText),
+    errorStyle: textTheme.bodySmall?.copyWith(color: modernLightError),
+
+    contentPadding: const EdgeInsets.symmetric(
+      horizontal: 20.0,
+      vertical: 18.0,
+    ),
+
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12.0),
+      borderSide: BorderSide.none,
+    ),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12.0),
+      borderSide: BorderSide(color: Colors.grey.shade300, width: 1),
+    ),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12.0),
+      borderSide: BorderSide(color: modernLightPrimary, width: 2),
+    ),
+    errorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12.0),
+      borderSide: BorderSide(color: modernLightError, width: 1.5),
+    ),
+    focusedErrorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12.0),
+      borderSide: BorderSide(color: modernLightError, width: 2),
+    ),
+    prefixIconColor: modernLightSecondaryText,
+    suffixIconColor: modernLightSecondaryText,
+  );
+}

@@ -5,107 +5,190 @@ import 'button_styles.dart';
 import 'input_styles.dart';
 import 'layout_styles.dart';
 
+// Define una clase para las extensiones de tema si quieres pasar degradados.
+// Opcional, puedes acceder a ellos directamente desde color_palette.dart.
+@immutable
+class AppThemeExtensions extends ThemeExtension<AppThemeExtensions> {
+  final LinearGradient? backgroundGradient;
+  final LinearGradient? cardGradient;
+  AppThemeExtensions({this.backgroundGradient, this.cardGradient});
+
+  @override
+  AppThemeExtensions copyWith({
+    LinearGradient? backgroundGradient,
+    LinearGradient? cardGradient,
+  }) {
+    return AppThemeExtensions(
+      backgroundGradient: backgroundGradient ?? this.backgroundGradient,
+      cardGradient: cardGradient ?? this.cardGradient,
+    );
+  }
+
+  @override
+  AppThemeExtensions lerp(ThemeExtension<AppThemeExtensions>? other, double t) {
+    if (other is! AppThemeExtensions) {
+      return this;
+    }
+    // Para simplificar, no implementamos lerp para degradados aquí.
+    // En una app real, podrías interpolar los colores del degradado.
+    return this;
+  }
+}
+
 class AppThemes {
+  static final TextTheme _darkTextTheme = buildDarkTextTheme();
+  static final TextTheme _lightTextTheme = buildLightTextTheme();
+
   static final ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
-    fontFamily: 'Roboto', // O la fuente que hayas elegido en pubspec.yaml
-    primaryColor: darkPrimaryColor,
-    scaffoldBackgroundColor: darkBackgroundColor,
-    
+    scaffoldBackgroundColor:
+        modernDarkBackground, // Color base, el degradado se aplica encima
+
     colorScheme: const ColorScheme.dark(
-      primary: darkPrimaryColor,
-      secondary: darkSecondaryColor,
-      background: darkBackgroundColor,
-      surface: darkSurfaceColor,
-      onPrimary: darkTextColor, // Texto sobre color primario
-      onSecondary: darkTextColor, // Texto sobre color secundario
-      onBackground: darkTextColor, // Texto sobre color de fondo
-      onSurface: darkTextColor, // Texto sobre color de superficie (cards, dialogs)
-      error: Colors.redAccent, // Un rojo brillante para errores
-      onError: darkTextColor, // Texto sobre color de error
+      primary: modernDarkPrimary,
+      secondary: modernDarkSecondary,
+      surface: modernDarkSurface,
+      background: modernDarkBackground,
+      error: modernDarkError,
+      onPrimary: Colors.white,
+      onSecondary: Colors.white,
+      onSurface: modernDarkText,
+      onBackground: modernDarkText,
+      onError: Colors.white,
     ),
-    
-    textTheme: darkTextTheme,
-    elevatedButtonTheme: darkElevatedButtonTheme,
-    outlinedButtonTheme: darkOutlinedButtonTheme,
-    textButtonTheme: darkTextButtonTheme,
-    inputDecorationTheme: darkInputDecorationTheme,
-    appBarTheme: darkAppBarTheme,
-    cardTheme: darkCardTheme,
-    floatingActionButtonTheme: darkFloatingActionButtonTheme,
-    
-    iconTheme: const IconThemeData(color: darkIconColor),
-    dividerColor: darkBorderColor.withOpacity(0.5), // Divisores sutiles
-    hintColor: darkHintTextColor, // Para hints generales no cubiertos por InputDecorationTheme
-    
-    // Configuración para Switch y otros componentes que lo usen
+
+    textTheme: _darkTextTheme,
+    elevatedButtonTheme: modernDarkElevatedButtonTheme(_darkTextTheme),
+    outlinedButtonTheme: modernDarkOutlinedButtonTheme(_darkTextTheme),
+    textButtonTheme: modernDarkTextButtonTheme(_darkTextTheme),
+    inputDecorationTheme: modernDarkInputDecorationTheme(_darkTextTheme),
+    appBarTheme: modernDarkAppBarTheme(_darkTextTheme),
+    cardTheme: modernDarkCardTheme(),
+    floatingActionButtonTheme: modernDarkFloatingActionButtonTheme(),
+    snackBarTheme: modernDarkSnackBarTheme(_darkTextTheme),
+
+    iconTheme: const IconThemeData(color: modernDarkText, size: 24),
+    dividerTheme: DividerThemeData(
+      color: modernDarkText.withOpacity(0.2),
+      thickness: 1,
+    ),
+
     switchTheme: SwitchThemeData(
-      thumbColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-        if (states.contains(MaterialState.selected)) {
-          return darkPrimaryColor; // Color del círculo cuando está activado
-        }
-        return null; // Usa el color por defecto (generalmente un gris)
-      }),
-      trackColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-        if (states.contains(MaterialState.selected)) {
-          return darkPrimaryColor.withOpacity(0.5); // Color del riel cuando está activado
-        }
-        return null; // Usa el color por defecto
-      }),
+      thumbColor: MaterialStateProperty.resolveWith<Color?>(
+        (states) =>
+            states.contains(MaterialState.selected)
+                ? modernDarkAccent
+                : modernDarkSecondaryText.withOpacity(0.6),
+      ),
+      trackColor: MaterialStateProperty.resolveWith<Color?>(
+        (states) =>
+            states.contains(MaterialState.selected)
+                ? modernDarkAccent.withOpacity(0.5)
+                : modernDarkSurface.withOpacity(0.8),
+      ),
+      trackOutlineColor: MaterialStateProperty.resolveWith<Color?>(
+        (states) =>
+            states.contains(MaterialState.selected)
+                ? Colors.transparent
+                : modernDarkText.withOpacity(0.3),
+      ),
     ),
-    // Puedes añadir más personalizaciones aquí (sliderTheme, chipTheme, etc.)
+    chipTheme: ChipThemeData(
+      backgroundColor: modernDarkSurface,
+      selectedColor: modernDarkPrimary,
+      labelStyle: _darkTextTheme.bodySmall?.copyWith(color: modernDarkText),
+      secondaryLabelStyle: _darkTextTheme.bodySmall?.copyWith(
+        color: Colors.white,
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      iconTheme: const IconThemeData(color: modernDarkText, size: 18),
+    ),
+    extensions: <ThemeExtension<dynamic>>[
+      AppThemeExtensions(
+        backgroundGradient: darkGradientBackground,
+        cardGradient: darkCardGradient,
+      ),
+    ],
   );
 
   static final ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
-    fontFamily: 'Roboto', 
-    primaryColor: lightPrimaryColor,
-    scaffoldBackgroundColor: lightBackgroundColor,
+    scaffoldBackgroundColor: modernLightBackground,
 
-    colorScheme: ColorScheme.light(
-      primary: lightPrimaryColor,
-      secondary: lightSecondaryColor,
-      background: lightBackgroundColor,
-      surface: lightSurfaceColor,
-      onPrimary: Colors.white, // Texto blanco sobre color primario
-      onSecondary: lightTextColor, 
-      onBackground: lightTextColor,
-      onSurface: lightTextColor,
-      error: Colors.red.shade700, // Un rojo más oscuro para buena legibilidad
-      onError: Colors.white, // Texto blanco sobre color de error
+    colorScheme: const ColorScheme.light(
+      primary: modernLightPrimary,
+      secondary: modernLightSecondary,
+      surface: modernLightSurface,
+      background: modernLightBackground,
+      error: modernLightError,
+      onPrimary: Colors.white,
+      onSecondary:
+          Colors
+              .white, // O modernLightText si el fondo del botón secundario es claro
+      onSurface: modernLightText,
+      onBackground: modernLightText,
+      onError: Colors.white,
     ),
 
-    textTheme: lightTextTheme,
-    elevatedButtonTheme: lightElevatedButtonTheme,
-    outlinedButtonTheme: lightOutlinedButtonTheme,
-    textButtonTheme: lightTextButtonTheme,
-    inputDecorationTheme: lightInputDecorationTheme,
-    appBarTheme: lightAppBarTheme,
-    cardTheme: lightCardTheme,
-    floatingActionButtonTheme: lightFloatingActionButtonTheme,
+    textTheme: _lightTextTheme,
+    elevatedButtonTheme: modernLightElevatedButtonTheme(_lightTextTheme),
+    outlinedButtonTheme: modernLightOutlinedButtonTheme(_lightTextTheme),
+    textButtonTheme: modernLightTextButtonTheme(_lightTextTheme),
+    inputDecorationTheme: modernLightInputDecorationTheme(_lightTextTheme),
+    appBarTheme: modernLightAppBarTheme(_lightTextTheme),
+    cardTheme: modernLightCardTheme(),
+    floatingActionButtonTheme: modernLightFloatingActionButtonTheme(),
+    snackBarTheme: modernLightSnackBarTheme(_lightTextTheme),
 
-    iconTheme: const IconThemeData(color: lightIconColor),
-    dividerColor: lightBorderColor,
-    hintColor: lightHintTextColor,
+    iconTheme: const IconThemeData(color: modernLightText, size: 24),
+    dividerTheme: DividerThemeData(
+      color: modernLightText.withOpacity(0.15),
+      thickness: 1,
+    ),
 
     switchTheme: SwitchThemeData(
-      thumbColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-        if (states.contains(MaterialState.selected)) {
-          return lightPrimaryColor;
-        }
-        return null; 
-      }),
-      trackColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-        if (states.contains(MaterialState.selected)) {
-          return lightPrimaryColor.withOpacity(0.5);
-        }
-        return null;
-      }),
+      thumbColor: MaterialStateProperty.resolveWith<Color?>(
+        (states) =>
+            states.contains(MaterialState.selected)
+                ? modernLightAccent
+                : modernLightSecondaryText.withOpacity(0.6),
+      ),
+      trackColor: MaterialStateProperty.resolveWith<Color?>(
+        (states) =>
+            states.contains(MaterialState.selected)
+                ? modernLightAccent.withOpacity(0.5)
+                : modernLightSurface.withOpacity(0.8),
+      ),
+      trackOutlineColor: MaterialStateProperty.resolveWith<Color?>(
+        (states) =>
+            states.contains(MaterialState.selected)
+                ? Colors.transparent
+                : modernLightText.withOpacity(0.3),
+      ),
     ),
+    chipTheme: ChipThemeData(
+      backgroundColor: modernLightPrimary.withOpacity(0.1),
+      selectedColor: modernLightPrimary,
+      labelStyle: _lightTextTheme.bodySmall?.copyWith(
+        color: modernLightPrimary,
+      ),
+      secondaryLabelStyle: _lightTextTheme.bodySmall?.copyWith(
+        color: Colors.white,
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      iconTheme: IconThemeData(color: modernLightPrimary, size: 18),
+    ),
+    extensions: <ThemeExtension<dynamic>>[
+      AppThemeExtensions(
+        backgroundGradient: lightGradientBackground,
+        cardGradient: lightCardGradient,
+      ),
+    ],
   );
 }
 
-// Notificador simple para el cambio de tema usando ValueNotifier
 class ThemeNotifier extends ValueNotifier<ThemeMode> {
   ThemeNotifier(ThemeMode value) : super(value);
 

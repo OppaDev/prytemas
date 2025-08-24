@@ -1,122 +1,105 @@
 import 'package:flutter/material.dart';
 import 'color_palette.dart';
-import 'text_styles.dart'; // Para acceder a los estilos de texto base
+// No necesitas text_styles.dart aquí si defines el textStyle directamente
 
-// --- Estilos de Botones Tema Oscuro ---
-final ElevatedButtonThemeData darkElevatedButtonTheme = ElevatedButtonThemeData(
-  style: ElevatedButton.styleFrom(
-    backgroundColor: darkPrimaryColor,
-    foregroundColor: darkTextColor, // Color del texto e icono dentro del botón
-    textStyle: darkTextTheme.labelLarge,
-    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14), // Ajusta el padding
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(8.0),
+// --- Estilos de Botones Tema Oscuro (Moderno) ---
+ElevatedButtonThemeData modernDarkElevatedButtonTheme(TextTheme textTheme) {
+  return ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: modernDarkPrimary,
+      foregroundColor: Colors.white,
+      textStyle: textTheme.labelLarge,
+      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+      elevation: 4,
+      shadowColor: modernDarkPrimary.withOpacity(0.3),
     ),
-    elevation: 2, // Sombra sutil
-  ),
-);
-
-final OutlinedButtonThemeData darkOutlinedButtonTheme = OutlinedButtonThemeData(
-  style: OutlinedButton.styleFrom(
-    foregroundColor: darkPrimaryColor, // Color del texto, icono y borde
-    side: const BorderSide(color: darkPrimaryColor, width: 1.5),
-    textStyle: darkTextTheme.labelLarge?.copyWith(color: darkPrimaryColor),
-    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(8.0),
-    ),
-  ),
-);
-
-final TextButtonThemeData darkTextButtonTheme = TextButtonThemeData(
-  style: TextButton.styleFrom(
-    foregroundColor: darkPrimaryColor,
-    textStyle: darkTextTheme.labelLarge?.copyWith(color: darkPrimaryColor),
-    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(8.0),
-    ),
-  ),
-);
-
-final FloatingActionButtonThemeData darkFloatingActionButtonTheme = FloatingActionButtonThemeData(
-  backgroundColor: darkPrimaryColor,
-  foregroundColor: darkTextColor,
-  elevation: 4,
-  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)), // Más redondeado que botones normales
-);
-
-// Estilo para botones tipo Chip (Tema Oscuro)
-ButtonStyle darkChipButtonStyle(BuildContext context) {
-  return ElevatedButton.styleFrom(
-    backgroundColor: darkChipBackgroundColor,
-    foregroundColor: darkTextColor,
-    textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500),
-    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), // Padding más ajustado
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(20.0), // Muy redondeado
-    ),
-    elevation: 0, // Sin sombra
-    // side: BorderSide(color: darkBorderColor.withOpacity(0.5)) // Borde sutil opcional
   );
 }
 
-
-// --- Estilos de Botones Tema Claro ---
-final ElevatedButtonThemeData lightElevatedButtonTheme = ElevatedButtonThemeData(
-  style: ElevatedButton.styleFrom(
-    backgroundColor: lightPrimaryColor,
-    foregroundColor: Colors.white, // Texto blanco sobre fondo de color primario
-    textStyle: lightTextTheme.labelLarge,
-    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(8.0),
+OutlinedButtonThemeData modernDarkOutlinedButtonTheme(TextTheme textTheme) {
+  return OutlinedButtonThemeData(
+    style: OutlinedButton.styleFrom(
+      foregroundColor: modernDarkSecondary,
+      side: BorderSide(color: modernDarkSecondary, width: 1.5),
+      textStyle: textTheme.labelLarge?.copyWith(color: modernDarkSecondary),
+      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
     ),
-    elevation: 2,
-  ),
-);
+  );
+}
 
-final OutlinedButtonThemeData lightOutlinedButtonTheme = OutlinedButtonThemeData(
-  style: OutlinedButton.styleFrom(
-    foregroundColor: lightPrimaryColor,
-    side: const BorderSide(color: lightPrimaryColor, width: 1.5),
-    textStyle: lightTextTheme.labelLarge?.copyWith(color: lightPrimaryColor),
-    padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(8.0),
+TextButtonThemeData modernDarkTextButtonTheme(TextTheme textTheme) {
+  return TextButtonThemeData(
+    style: TextButton.styleFrom(
+      foregroundColor: modernDarkAccent,
+      textStyle: textTheme.labelLarge?.copyWith(
+        color: modernDarkAccent,
+        fontWeight: FontWeight.w600,
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
     ),
-  ),
-);
+  );
+}
 
-final TextButtonThemeData lightTextButtonTheme = TextButtonThemeData(
-  style: TextButton.styleFrom(
-    foregroundColor: lightPrimaryColor,
-    textStyle: lightTextTheme.labelLarge?.copyWith(color: lightPrimaryColor),
-    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(8.0),
+FloatingActionButtonThemeData modernDarkFloatingActionButtonTheme() {
+  return FloatingActionButtonThemeData(
+    backgroundColor: modernDarkAccent,
+    foregroundColor: Colors.white,
+    elevation: 6,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+    splashColor: Colors.white.withOpacity(0.2),
+  );
+}
+
+// --- Estilos de Botones Tema Claro (Moderno) ---
+ElevatedButtonThemeData modernLightElevatedButtonTheme(TextTheme textTheme) {
+  return ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: modernLightPrimary,
+      foregroundColor: Colors.white,
+      textStyle: textTheme.labelLarge,
+      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+      elevation: 3,
+      shadowColor: modernLightPrimary.withOpacity(0.4),
     ),
-  ),
-);
+  );
+}
 
-final FloatingActionButtonThemeData lightFloatingActionButtonTheme = FloatingActionButtonThemeData(
-  backgroundColor: lightPrimaryColor,
-  foregroundColor: Colors.white,
-  elevation: 4,
-  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-);
-
-// Estilo para botones tipo Chip (Tema Claro)
-ButtonStyle lightChipButtonStyle(BuildContext context) {
-  return ElevatedButton.styleFrom(
-    backgroundColor: lightChipBackgroundColor,
-    foregroundColor: lightTextColor, // Texto oscuro sobre fondo claro
-     textStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w500, color: lightTextColor),
-    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(20.0),
+OutlinedButtonThemeData modernLightOutlinedButtonTheme(TextTheme textTheme) {
+  return OutlinedButtonThemeData(
+    style: OutlinedButton.styleFrom(
+      foregroundColor: modernLightSecondary,
+      side: BorderSide(color: modernLightSecondary, width: 1.5),
+      textStyle: textTheme.labelLarge?.copyWith(color: modernLightSecondary),
+      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
     ),
-    elevation: 0,
-    // side: BorderSide(color: lightBorderColor.withOpacity(0.7)) // Borde sutil opcional
+  );
+}
+
+TextButtonThemeData modernLightTextButtonTheme(TextTheme textTheme) {
+  return TextButtonThemeData(
+    style: TextButton.styleFrom(
+      foregroundColor: modernLightAccent,
+      textStyle: textTheme.labelLarge?.copyWith(
+        color: modernLightAccent,
+        fontWeight: FontWeight.w600,
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+    ),
+  );
+}
+
+FloatingActionButtonThemeData modernLightFloatingActionButtonTheme() {
+  return FloatingActionButtonThemeData(
+    backgroundColor: modernLightAccent,
+    foregroundColor: Colors.white,
+    elevation: 5,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+    splashColor: Colors.black.withOpacity(0.1),
   );
 }
